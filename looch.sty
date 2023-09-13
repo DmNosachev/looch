@@ -1,0 +1,367 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{looch}[2023/08/18 looch]
+
+%*******************
+% цвета
+%*******************
+\RequirePackage[dvipsnames]{xcolor}
+
+%*******************
+% параметры
+%*******************
+
+
+
+%*******************
+% размеры и поля
+%*******************
+\RequirePackage[
+            top=20mm,
+            bottom=20mm,
+            left=30mm,
+            right=15mm]{geometry}
+
+
+%*******************
+% языки
+%*******************
+\RequirePackage{polyglossia}
+\setmainlanguage[babelshorthands=true]{russian}
+\setotherlanguages{english}
+
+\addto\captionsrussian{%
+  \renewcommand{\contentsname}{СОДЕРЖАНИЕ}
+}
+
+%*******************
+% шрифты
+%*******************
+
+\defaultfontfeatures{Ligatures=TeX, Scale=MatchLowercase}
+\setmainfont[Scale=1.005]{Times New Roman}
+\setromanfont{Times New Roman}
+%\setmainfont{erewhon}
+%\setromanfont{erewhon}
+\setmonofont{Liberation Mono}
+
+\newfontfamily{\cyrillicfont}{Times New Roman} 
+\newfontfamily{\cyrillicfontrm}{Times New Roman}
+%\newfontfamily{\cyrillicfont}{erewhon} 
+%\newfontfamily{\cyrillicfontrm}{erewhon}
+\newfontfamily{\cyrillicfonttt}{Liberation Mono}
+\newfontfamily{\cyrillicfontsf}{Liberation Sans}
+
+\RequirePackage{microtype}
+
+%*******************
+% формулы
+%*******************
+
+\RequirePackage{amsmath}
+\RequirePackage{mathtools}
+%\RequirePackage{amssymb} % символы есть в Erewhon
+\RequirePackage[math-style=upright]{unicode-math}
+\setmathfont{Erewhon Math}[Scale=MatchUppercase, StylisticSet={3,4}]
+% Цифры в Erewhon отличаются от TMR (например, загругление в «6»),
+% диапазона Math у TMR нет, поэтому используем XITS Math для цифр
+\setmathfont{XITS Math}[range=up/{num}]
+
+% единицы измерения
+\RequirePackage{siunitx}
+\sisetup{input-decimal-markers = {,},
+output-decimal-marker = {,},
+per-mode=single-symbol,
+range-open-phrase = { \text{от} },
+range-phrase = { \text{до} },
+exponent-product = {\cdot}
+}
+
+\input{siunitx-cfg.tex}
+
+%*******************
+% графика
+%*******************
+\RequirePackage{graphicx} % Вставка картинок и дополнений
+\graphicspath{{images/}}
+\RequirePackage[absolute,overlay]{textpos}
+\setlength{\TPHorizModule}{1cm}
+\setlength{\TPVertModule}{1cm}
+\RequirePackage{tikz}
+\RequirePackage{tikzpagenodes}
+
+%*******************
+% прочее
+%*******************
+\RequirePackage[nodisplayskipstretch]{setspace} % для управления межстрочным, окружения singlespace, onehalfspace 
+\RequirePackage{etoolbox} % патчим команды
+
+\RequirePackage{float} % Расширенное управление плавающими объектами
+\RequirePackage{placeins} % для \FloatBarrier 
+\RequirePackage[labelformat=simple]{subcaption}
+\RequirePackage{lscape} % повернутые страницы
+
+% вставка пустой страницы
+\RequirePackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    %\addtocounter{page}{-1}%
+    \newpage}
+
+%*******************
+% Списки
+%*******************
+\RequirePackage{enumitem}
+% Используем короткое тире (endash) для ненумерованных списков
+\renewcommand{\labelitemi}{\normalfont{--}}
+
+% счетчик кириллицей
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+
+%*******************
+% стиль подписей к рисункам и таблицам
+%*******************
+\RequirePackage[labelfont={small,bf}, textfont={small}, labelsep=period]{caption}
+\captionsetup{justification=raggedright, singlelinecheck=false}
+
+\renewcommand\thesubfigure{\asbuk{subfigure})}
+
+%*******************
+% таблицы
+%*******************
+
+\RequirePackage{tabularray}
+\NewTblrTheme{ecsn}{
+    %\SetTblrStyle{firsthead}{font=\bfseries}
+    \SetTblrStyle{caption-tag}{font=\small\bfseries}
+    \SetTblrStyle{caption-text}{font=\small}
+    \SetTblrStyle{contfoot-text}{font=\small}
+    \SetTblrStyle{conthead-text}{font=\small}
+}
+
+\DefTblrTemplate{caption-sep}{default}{.\enskip}
+\DefTblrTemplate{contfoot-text}{default}{Продолжение на следующей странице}
+\DefTblrTemplate{conthead-text}{default}{(Продолжение таблицы)}
+
+%*******************
+% Счетчики
+%*******************
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{1}
+\renewcommand\thepart{\arabic{part}}
+\renewcommand\thechapter{\arabic{chapter}}
+\renewcommand\thesection{\thechapter.\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+%*******************
+% Заголовки
+%*******************
+\RequirePackage[pagestyles, newparttoc]{titlesec}
+\RequirePackage{titletoc}
+
+\titleclass{\part}{straight}
+\titleclass{\chapter}{straight}
+
+\titleformat{\part}[block]
+{\large\bfseries}
+{Книга\nobreakspace\thepart}
+{.8ex}
+{}
+[]
+
+\titleformat{\chapter}[block]
+{\large\filcenter}
+{\thechapter}
+{.8ex}
+{}
+[]
+
+\titleformat{\section}[block]
+{\large\bfseries}
+{\thesection}
+{.8ex}
+{}
+[]
+
+\titleformat{\subsection}[block]
+{\large\bfseries}
+{\thesubsection}
+{.8ex}
+{}
+[]
+
+\titleformat{\subsubsection}[block]
+{\large\bfseries}
+{\thesubsubsection}
+{.8ex}
+{}
+[]
+
+\titlespacing{\part}{\parindent}{*4.5}{*1.5}
+\titlespacing{\chapter}{\parindent}{*4.5}{*1.5}
+\titlespacing{\section}{\parindent}{*4.5}{*1.5}
+\titlespacing{\subsection}{\parindent}{*4.5}{*1.5}
+\titlespacing{\subsubsection}{\parindent}{*4.5}{*1.5}
+
+%*******************
+% Стили в оглавлении
+%*******************
+\renewcommand\contentsname{СОДЕРЖАНИЕ}
+
+\titlecontents{part}
+[0pt]
+{\raggedright}
+{Книга\nobreakspace\thecontentslabel}
+{\hspace*{-2.3em}}
+{}[\medskip]
+
+\titlecontents{chapter}
+[3.8em]
+{\raggedright}
+{\contentslabel{2.3em}}
+{\hspace*{-2.3em}}
+{\titlerule*[0.3pc]{.}\contentspage}[\medskip]
+
+\titlecontents{section}
+[3.8em]
+{\raggedright}
+{\contentslabel{2.3em}}
+{\hspace*{-2.3em}}
+{\titlerule*[0.3pc]{.}\contentspage}[\medskip]
+
+\titlecontents{subsection}
+[6em]
+{\raggedright}
+{\contentslabel{2.3em}}
+{\hspace*{-2.3em}}
+{\titlerule*[0.3pc]{.}\contentspage}[\medskip]
+
+%*******************
+% колонтитулы
+%*******************
+
+
+
+%*********************
+% Библиография
+%*********************
+\RequirePackage[%
+backend=biber,
+bibencoding=utf8,
+style=gost-numeric,
+language=autobib,
+autolang=other,
+clearlang=true,
+sortcites=true,
+]{biblatex}
+
+\RequirePackage{csquotes}
+
+% Вначале выводим русскоязычныке источники по langid
+\DeclareSourcemap{
+    \maps[datatype=bibtex]{
+        \map{
+            \step[fieldsource=langid, match=russian, final]
+            \step[fieldset=presort, fieldvalue={a}]
+        }
+        \map{
+            \step[fieldsource=langid, notmatch=russian, final]
+            \step[fieldset=presort, fieldvalue={z}]
+        }
+    }
+}
+
+% Перенос длинных URL в библиографии
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+
+% Запрет кодирования URL
+\DeclareFieldFormat{url}{%
+    \mkbibacro{URL}\addcolon\space
+    \href{#1}{\nolinkurl{\thefield{urlraw}}}}
+
+\DefineBibliographyStrings{russian}{%
+  bibliography = {СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ},
+  references = {СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ},
+}
+
+
+
+%*************
+% нумерация
+%*************
+\RequirePackage{chngcntr}
+\counterwithout{equation}{chapter}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+
+%*******************
+% Висячие строки, переносы
+%*******************
+\hyphenpenalty=750 % default = 50
+\RequirePackage{lua-widow-control}
+\lwcsetup{balanced}
+
+%\clubpenalty=8000
+%\widowpenalty=8000
+%подавление переносов между страницами
+\brokenpenalty=8000\relax
+
+% автоматизация запрета на отрыв 1-буквенных слов
+\RequirePackage{luavlna}
+\singlechars{russian}{ВСАКИОЯвсакиоя}
+
+%*******************
+% hyperref
+%*******************
+
+\RequirePackage[final,
+pdfauthor={АО «НИИ НПО «ЛУЧ»},
+pdftitle={СТО}, luatex]{hyperref}
+
+\hypersetup{
+    unicode=true,
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    filecolor=black,
+    urlcolor=black
+}
+
+%*******************
+% Окружения и макросы
+%*******************
+\RequirePackage{xparse}
+
+% Линейка для подписей
+\newcommand{\loochRule}[1]{\(\rule{#1 cm}{0.5pt}\)}
+
+% Линейка для даты с годом
+\newcommand{\loochDateRule}[1]{«\(\rule{0.7cm}{0.5pt}\)» \(\rule{2cm}{0.5pt}\) #1}
+
+% Шапка для отчетов
+\newcommand{\loochHat}{
+\begin{center}
+Государственная корпорация по атомной энергии «Росатом»
+
+АКЦИОНЕРНОЕ ОБЩЕСТВО
+
+«НАУЧНО-ИССЛЕДОВАТЕЛЬСКИЙ ИНСТИТУТ
+
+НАУЧНО-ПРОИЗВОДСТВЕННОЕ ОБЬЕДИНЕНИЕ «ЛУЧ»
+
+(АО~«НИИ НПО «ЛУЧ»)
+\end{center}
+}
+
+% Номер книги для отчетов
+\newcommand{\loochRepBook}[1]{Книга~#1}
+
+
+
+% удерживать pagestyle в Оглавлении
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
+\AtBeginDocument{\onehalfspacing}
