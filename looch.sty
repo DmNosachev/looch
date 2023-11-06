@@ -31,6 +31,7 @@
 
 \addto\captionsrussian{%
   \renewcommand{\contentsname}{СОДЕРЖАНИЕ}
+  \renewcommand{\figurename}{Рисунок}
 }
 
 %*******************
@@ -52,6 +53,8 @@
 \newfontfamily{\cyrillicfontsf}{Liberation Sans}
 
 \RequirePackage{microtype}
+\RequirePackage{stackengine}
+\renewcommand\stacktype{L}
 
 %*******************
 % формулы
@@ -120,10 +123,10 @@ exponent-product = {\cdot}
 \AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
 
 %*******************
-% стиль подписей к рисункам и таблицам
+% стиль подписей к рисункам (таблицы tabularray настраиваются внутри пакета)
 %*******************
 \RequirePackage[labelfont={small,bf}, textfont={small}, labelsep=period]{caption}
-\captionsetup{justification=raggedright, singlelinecheck=false}
+\captionsetup{labelsep = endash}
 
 \renewcommand\thesubfigure{\asbuk{subfigure})}
 
@@ -140,9 +143,40 @@ exponent-product = {\cdot}
     \SetTblrStyle{conthead-text}{font=\small}
 }
 
-\DefTblrTemplate{caption-sep}{default}{.\enskip}
 \DefTblrTemplate{contfoot-text}{default}{Продолжение на следующей странице}
 \DefTblrTemplate{conthead-text}{default}{(Продолжение таблицы)}
+
+% Edits on the tabularray defaults
+\ExplSyntaxOn
+\DefTblrTemplate{caption-sep}{default}{.\enskip}    % Change ":" to "."
+\DefTblrTemplate{caption}{default}                  % Entire caption setup
+{%
+  \hbox_set:Nn \l__tblr_caption_box{%
+    \UseTblrTemplate{caption-tag}{default}
+    \UseTblrTemplate{caption-sep}{default}
+    \UseTblrTemplate{caption-text}{default}
+  }
+  \dim_compare:nNnTF{\box_wd:N \l__tblr_caption_box} > {\hsize}
+  {%
+    \UseTblrAlign{caption}
+    \UseTblrIndent{caption}
+    \hbox_set:Nn \l__tblr_caption_left_box{%
+      \UseTblrTemplate{caption-tag}{default}
+      \UseTblrTemplate{caption-sep}{default}
+    }
+    \hangindent = \box_wd:N \l__tblr_caption_left_box
+    \hangafter = 1
+    \UseTblrHang{caption}
+    \leavevmode
+    \hbox_unpack:N \l__tblr_caption_box
+    \par
+  }{%
+    \centering
+    \makebox[\hsize][l]{\box_use:N \l__tblr_caption_box}    % "c" to "l"
+    \par
+  }
+}
+\ExplSyntaxOff
 
 %*******************
 % Счетчики
@@ -154,7 +188,7 @@ exponent-product = {\cdot}
 \renewcommand\thechapter{\arabic{chapter}}
 \renewcommand\thesection{\thechapter.\arabic{section}}
 \renewcommand\thesubsection{\thesection.\arabic{subsection}}
-\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+%\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
 
 %*******************
 % Заголовки
@@ -194,9 +228,9 @@ exponent-product = {\cdot}
 []
 
 \titleformat{\subsubsection}[block]
-{\large\bfseries}
-{\thesubsubsection}
-{.8ex}
+{\normalsize\bfseries}
+{}
+{\parindent}
 {}
 []
 
