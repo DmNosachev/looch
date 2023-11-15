@@ -135,20 +135,13 @@ exponent-product = {\cdot}
 %*******************
 
 \RequirePackage{tabularray}
-\NewTblrTheme{ecsn}{
-    %\SetTblrStyle{firsthead}{font=\bfseries}
-    \SetTblrStyle{caption-tag}{font=\small\bfseries}
-    \SetTblrStyle{caption-text}{font=\small}
-    \SetTblrStyle{contfoot-text}{font=\small}
-    \SetTblrStyle{conthead-text}{font=\small}
-}
 
 \DefTblrTemplate{contfoot-text}{default}{Продолжение на следующей странице}
 \DefTblrTemplate{conthead-text}{default}{(Продолжение таблицы)}
 
 % Edits on the tabularray defaults
 \ExplSyntaxOn
-\DefTblrTemplate{caption-sep}{default}{.\enskip}    % Change ":" to "."
+\DefTblrTemplate{caption-sep}{default}{~--\enskip}    
 \DefTblrTemplate{caption}{default}                  % Entire caption setup
 {%
   \hbox_set:Nn \l__tblr_caption_box{%
@@ -177,6 +170,14 @@ exponent-product = {\cdot}
   }
 }
 \ExplSyntaxOff
+
+
+\NewTblrTheme{looch-nocap}{
+    \SetTblrTemplate{caption-sep}{empty}
+}
+
+
+
 
 %*******************
 % Счетчики
