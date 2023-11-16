@@ -122,15 +122,6 @@ exponent-product = {\cdot}
 % счетчик кириллицей
 \AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
 
-% счетчик кириллицей для приложений
-\def\LAsbuk#1{\expandafter\@LAsbuk\csname c@#1\endcsname}
-\def\@LAsbuk#1{\ifcase#1\or
-    А\or Б\or В\or Г\or Д\or Е\or Ж\or
-    И\or К\or Л\or М\or Н\or
-    П\or Р\or С\or Т\or У\or Ф\or Х\or
-    Ц\or Ш\or Щ\or Э\or Ю\or Я%
-    \else\@ctrerr\fi%
-}
 
 %*******************
 % стиль подписей к рисункам (таблицы tabularray настраиваются внутри пакета)
@@ -201,6 +192,16 @@ exponent-product = {\cdot}
 \renewcommand\thesubsection{\thesection.\arabic{subsection}}
 %\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
 
+% счетчик кириллицей для приложений
+\def\LAsbuk#1{\expandafter\@LAsbuk\csname c@#1\endcsname}
+\def\@LAsbuk#1{\ifcase#1\or
+    А\or Б\or В\or Г\or Д\or Е\or Ж\or
+    И\or К\or Л\or М\or Н\or
+    П\or Р\or С\or Т\or У\or Ф\or Х\or
+    Ц\or Ш\or Щ\or Э\or Ю\or Я%
+    \else\@ctrerr\fi%
+}
+
 %*******************
 % Заголовки
 %*******************
@@ -255,6 +256,9 @@ exponent-product = {\cdot}
 % Стили в оглавлении
 %*******************
 \renewcommand\contentsname{СОДЕРЖАНИЕ}
+\addto\captionsrussian{
+    \renewcommand{\listfigurename}{Список рисунков}
+}
 
 \titlecontents{part}
 [0pt]
