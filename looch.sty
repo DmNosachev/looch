@@ -260,33 +260,40 @@ exponent-product = {\cdot}
     \renewcommand{\listfigurename}{Список рисунков}
 }
 
+% \titlecontents}{часть}
+% [отступ слева]
+% {код до}
+% {нумерованный}{ненумерованный}
+% {заполнитель}
+% [код после]
+ 
 \titlecontents{part}
 [0pt]
 {\raggedright}
-{Книга\nobreakspace\thecontentslabel}
-{\hspace*{-2.3em}}
-{}[\medskip]
+{Книга\nobreakspace\thecontentslabel}{}
+{}
+[\medskip]
 
 \titlecontents{chapter}
 [3.8em]
 {\raggedright}
-{\contentslabel{2.3em}}
-{\hspace*{-2.3em}}
-{\titlerule*[0.3pc]{.}\contentspage}[\medskip]
+{\contentslabel{2.3em}}{\hspace*{-2.3em}}
+{\titlerule*[0.3pc]{.}\contentspage}
+[\medskip]
 
 \titlecontents{section}
 [3.8em]
 {\raggedright}
-{\contentslabel{2.3em}}
-{\hspace*{-2.3em}}
-{\titlerule*[0.3pc]{.}\contentspage}[\medskip]
+{\contentslabel{2.3em}}{\hspace*{-2.3em}}
+{\titlerule*[0.3pc]{.}\contentspage}
+[\medskip]
 
 \titlecontents{subsection}
 [6em]
 {\raggedright}
-{\contentslabel{2.3em}}
-{\hspace*{-2.3em}}
-{\titlerule*[0.3pc]{.}\contentspage}[\medskip]
+{\contentslabel{2.3em}}{\hspace*{-2.3em}}
+{\titlerule*[0.3pc]{.}\contentspage}
+[\medskip]
 
 %*******************
 % колонтитулы
