@@ -311,28 +311,32 @@ style=gost-numeric,
 language=autobib,
 autolang=other,
 clearlang=true,
-sortcites=true,
+sortcites=false,
 ]{biblatex}
 
 \RequirePackage{csquotes}
 
 % Вначале выводим русскоязычныке источники по langid
-\DeclareSourcemap{
-    \maps[datatype=bibtex]{
-        \map{
-            \step[fieldsource=langid, match=russian, final]
-            \step[fieldset=presort, fieldvalue={a}]
-        }
-        \map{
-            \step[fieldsource=langid, notmatch=russian, final]
-            \step[fieldset=presort, fieldvalue={z}]
-        }
-    }
-}
+%\DeclareSourcemap{
+%    \maps[datatype=bibtex]{
+%        \map{
+%           \step[fieldsource=langid, match=russian, final]
+%            \step[fieldset=presort, fieldvalue={a}]
+%        }
+%        \map{
+%            \step[fieldsource=langid, notmatch=russian, final]
+%            \step[fieldset=presort, fieldvalue={z}]
+%        }
+%    }
+%}
 
 % Перенос длинных URL в библиографии
 \setcounter{biburllcpenalty}{7000}
 \setcounter{biburlucpenalty}{8000}
+
+%\DeclareFieldFormat{labelnumberwidth}{#1\adddot}
+\DeclareFieldFormat{labelnumberwidth}{#1}
+\setlength{\biblabelsep}{5pt}
 
 % Запрет кодирования URL
 \DeclareFieldFormat{url}{%
